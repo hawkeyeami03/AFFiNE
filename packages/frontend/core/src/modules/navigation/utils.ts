@@ -106,7 +106,13 @@ export const isLink = (str: string) => {
 /**
  * @see /packages/frontend/core/src/router.tsx
  */
-export const routeModulePaths = ['all', 'collection', 'tag', 'trash'] as const;
+export const routeModulePaths = [
+  'all',
+  'collection',
+  'tag',
+  'trash',
+  'projects-tasks',
+] as const;
 export type RouteModulePath = (typeof routeModulePaths)[number];
 
 const isRouteModulePath = (

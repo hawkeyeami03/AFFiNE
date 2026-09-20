@@ -8205,6 +8205,18 @@ export function useAFFiNEI18N(): {
       */
     ["com.affine.workspaceSubPath.chat"](): string;
     /**
+      * `Projects & Tasks`
+      */
+    ["com.affine.workspaceSubPath.projects-tasks"](): string;
+    /**
+      * `Projects`
+      */
+    ["com.affine.projects-tasks.projects"](): string;
+    /**
+      * `Timeline`
+      */
+    ["com.affine.projects-tasks.timeline"](): string;
+    /**
       * `Trash`
       */
     ["com.affine.workspaceSubPath.trash"](): string;

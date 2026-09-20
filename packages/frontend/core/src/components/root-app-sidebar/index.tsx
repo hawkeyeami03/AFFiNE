@@ -24,6 +24,7 @@ import {
   ImportIcon,
   JournalIcon,
   SettingsIcon,
+  ViewLayersIcon,
 } from '@blocksuite/icons/rc';
 import { useLiveData, useService, useServices } from '@toeverything/infra';
 import type { ReactElement } from 'react';
@@ -84,6 +85,27 @@ const AllDocsButton = () => {
       <span data-testid="all-pages">
         {t['com.affine.workspaceSubPath.all']()}
       </span>
+    </MenuLinkItem>
+  );
+};
+
+const ProjectsTasksButton = () => {
+  const t = useI18n();
+  const workbench = useService(WorkbenchService).workbench;
+  const active = useLiveData(
+    workbench.location$.selector(
+      location => location.pathname === '/projects-tasks'
+    )
+  );
+
+  return (
+    <MenuLinkItem
+      icon={<ViewLayersIcon />}
+      active={active}
+      to="/projects-tasks"
+      data-testid="projects-tasks-button"
+    >
+      {t['com.affine.workspaceSubPath.projects-tasks']()}
     </MenuLinkItem>
   );
 };
@@ -212,6 +234,7 @@ export const RootAppSidebar = memo((): ReactElement => {
           <AddPageButton />
         </div>
         <AllDocsButton />
+        <ProjectsTasksButton />
         <AppSidebarJournalButton />
         {sessionStatus === 'authenticated' && <NotificationButton />}
         <AIChatButton />
