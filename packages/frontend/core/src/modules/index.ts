@@ -50,6 +50,7 @@ import { configurePaywallModule } from './paywall';
 import { configurePDFModule } from './pdf';
 import { configurePeekViewModule } from './peek-view';
 import { configurePermissionsModule } from './permissions';
+import { configureProjectsTasksModule } from './projects-tasks';
 import { configureQuickSearchModule } from './quicksearch';
 import { configSearchMenuModule } from './search-menu';
 import { configureShareDocsModule } from './share-doc';
@@ -73,6 +74,7 @@ import { configureWorkspacePropertyModule } from './workspace-property';
 export function configureCommonModules(framework: Framework) {
   configureI18nModule(framework);
   configureWorkspaceModule(framework);
+  configureProjectsTasksModule(framework);
   configureDocModule(framework);
   configureWorkspaceDBModule(framework);
   configureStorageModule(framework);

@@ -1,20 +1,12 @@
-export type TaskRow = {
-  type: 'task';
-  id: string;
-  projectId: string;
-  name: string;
-  startMinute: number;
-  endMinute: number;
-};
+import type {
+  Project,
+  Task,
+  TaskSchedule,
+} from '@affine/core/modules/projects-tasks';
 
-export type ProjectRow = {
-  type: 'project';
-  id: string;
-  name: string;
-};
-
-export type TimelineRow = ProjectRow | TaskRow;
-type MockProject = ProjectRow & { tasks: TaskRow[] };
+export type TimelineRow =
+  | { type: 'project'; id: string; project: Project }
+  | { type: 'task'; id: string; projectId: string; task: Task };
 
 export const ROW_HEIGHT = 44;
 export const HEADER_HEIGHT = 48;
@@ -24,94 +16,40 @@ export const DAY_WIDTH = 24 * HOUR_WIDTH;
 export const TIMELINE_WIDTH = DAY_WIDTH + 56;
 export const HOURS = Array.from({ length: 25 }, (_, hour) => hour);
 
-const projects: MockProject[] = [
-  {
-    type: 'project',
-    id: 'alpha',
-    name: 'Project Alpha',
-    tasks: [
-      {
-        type: 'task',
-        id: 'planning',
-        projectId: 'alpha',
-        name: 'Planning',
-        startMinute: 360,
-        endMinute: 450,
-      },
-    ],
-  },
-  {
-    type: 'project',
-    id: 'beta',
-    name: 'Project Beta',
-    tasks: [
-      {
-        type: 'task',
-        id: 'research',
-        projectId: 'beta',
-        name: 'Research',
-        startMinute: 480,
-        endMinute: 600,
-      },
-      {
-        type: 'task',
-        id: 'design',
-        projectId: 'beta',
-        name: 'Design',
-        startMinute: 570,
-        endMinute: 720,
-      },
-      {
-        type: 'task',
-        id: 'prototype',
-        projectId: 'beta',
-        name: 'Prototype',
-        startMinute: 660,
-        endMinute: 870,
-      },
-    ],
-  },
-  {
-    type: 'project',
-    id: 'execution',
-    name: 'Phase 3: Execution',
-    tasks: [
-      {
-        type: 'task',
-        id: 'implementation',
-        projectId: 'execution',
-        name: 'Implementation',
-        startMinute: 870,
-        endMinute: 1020,
-      },
-    ],
-  },
-  {
-    type: 'project',
-    id: 'review',
-    name: 'Final Review',
-    tasks: [
-      {
-        type: 'task',
-        id: 'review-task',
-        projectId: 'review',
-        name: 'Review',
-        startMinute: 1020,
-        endMinute: 1080,
-      },
-    ],
-  },
-];
-
-export function getVisibleRows(expanded: ReadonlySet<string>): TimelineRow[] {
+export function getVisibleRows(
+  projects: readonly Project[],
+  expanded: ReadonlySet<string>
+): TimelineRow[] {
   return projects.flatMap<TimelineRow>(project => [
-    project,
-    ...(expanded.has(project.id) ? project.tasks : []),
+    { type: 'project', id: project.id, project },
+    ...(expanded.has(project.id)
+      ? project.tasks.map(task => ({
+          type: 'task' as const,
+          id: task.id,
+          projectId: project.id,
+          task,
+        }))
+      : []),
   ]);
 }
 
-export function minuteToX(minute: number) {
-  return (minute / 60) * HOUR_WIDTH;
+export function minuteToX(minute: number, hourWidth = HOUR_WIDTH) {
+  return (minute / 60) * hourWidth;
+}
+
+export function durationToWidth(schedule: TaskSchedule) {
+  return minuteToX(schedule.endMinute - schedule.startMinute);
+}
+
+export function getInitialTimelineMinute(rows: readonly TimelineRow[]) {
+  const taskStarts = rows
+    .filter(
+      (row): row is Extract<TimelineRow, { type: 'task' }> =>
+        row.type === 'task'
+    )
+    .map(row => row.task.schedule.startMinute);
+
+  return taskStarts.length > 0 ? Math.min(...taskStarts) : 0;
 }
 
 export function formatMinute(minute: number) {

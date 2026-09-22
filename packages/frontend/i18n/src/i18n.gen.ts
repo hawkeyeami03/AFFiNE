@@ -8217,6 +8217,66 @@ export function useAFFiNEI18N(): {
       */
     ["com.affine.projects-tasks.timeline"](): string;
     /**
+      * `New project`
+      */
+    ["com.affine.projects-tasks.new-project"](): string;
+    /**
+      * `Rename project`
+      */
+    ["com.affine.projects-tasks.rename-project"](): string;
+    /**
+      * `Add task`
+      */
+    ["com.affine.projects-tasks.add-task"](): string;
+    /**
+      * `Edit task`
+      */
+    ["com.affine.projects-tasks.edit-task"](): string;
+    /**
+      * `Project name`
+      */
+    ["com.affine.projects-tasks.project-name"](): string;
+    /**
+      * `Task name`
+      */
+    ["com.affine.projects-tasks.task-name"](): string;
+    /**
+      * `Start time`
+      */
+    ["com.affine.projects-tasks.start-time"](): string;
+    /**
+      * `End time`
+      */
+    ["com.affine.projects-tasks.end-time"](): string;
+    /**
+      * `End time must be later than start time.`
+      */
+    ["com.affine.projects-tasks.invalid-time"](): string;
+    /**
+      * `More actions`
+      */
+    ["com.affine.projects-tasks.row-actions"](): string;
+    /**
+      * `Delete project?`
+      */
+    ["com.affine.projects-tasks.delete-project"](): string;
+    /**
+      * `Delete {{name}} and all of its tasks?`
+      */
+    ["com.affine.projects-tasks.delete-project-description"](options: {
+        readonly name: string;
+    }): string;
+    /**
+      * `Delete task?`
+      */
+    ["com.affine.projects-tasks.delete-task"](): string;
+    /**
+      * `Delete {{name}}?`
+      */
+    ["com.affine.projects-tasks.delete-task-description"](options: {
+        readonly name: string;
+    }): string;
+    /**
       * `Trash`
       */
     ["com.affine.workspaceSubPath.trash"](): string;
